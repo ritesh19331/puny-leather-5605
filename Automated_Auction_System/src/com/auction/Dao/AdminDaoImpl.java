@@ -10,6 +10,7 @@ import java.util.List;
 import com.auction.exception.AdminException;
 import com.auction.exception.BuyerException;
 import com.auction.exception.SellerException;
+import com.auction.model.Admin;
 import com.auction.model.Buyer;
 import com.auction.model.Seller;
 import com.auction.utility.DBUtil;
@@ -17,7 +18,7 @@ import com.auction.utility.DBUtil;
 public class AdminDaoImpl implements AdminDao{
 
 	@Override
-	public String LoginAdmin(String username, String access_key) throws AdminException {
+	public String loginAdmin(String username, String access_key) throws AdminException {
 		String message="Admin not Registered...";
 		
 		
@@ -33,6 +34,8 @@ public class AdminDaoImpl implements AdminDao{
 		if(rs.next()) {
 //			System.out.println();
 			message = "Hey! " + rs.getString("admin_name")+", Admin Access Successfull ";
+			System.out.println(message);
+			message="welcome";
 		}else
 			throw new AdminException("Please Enter Correct Login And Password");
 		} catch (SQLException e) {
@@ -85,7 +88,7 @@ public class AdminDaoImpl implements AdminDao{
 			while(rs.next()) {
 //				
 				int bid = rs.getInt("sid");
-				String buyer_name = rs.getString("buyer_name");
+				String buyer_name = rs.getString("seller_name");
 				String email = rs.getString("email");
 				
 				Seller s = new Seller(bid,buyer_name,email);
@@ -101,6 +104,31 @@ public class AdminDaoImpl implements AdminDao{
 			}
 		
 		return ls;
+	}
+
+	@Override
+	public String registerAdmin(Admin a) throws AdminException {
+		String message="Admin not Registered...";
+		
+		
+		try(Connection conn = DBUtil.provideConnection()) {
+			
+		PreparedStatement ps =	conn.prepareStatement("insert into admin(admin_name,email,password) values(?,?,?)");
+		
+		ps.setString(1, a.getAdmin_name());
+		ps.setString(2, a.getEmail());
+		ps.setString(3, a.getPassword());
+		
+		int x = ps.executeUpdate();
+		
+		if(x > 0) {
+			message = " Registered As Admin Successfully ";
+		}else
+			throw new AdminException("Admin Registration Failed");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return message;
 	}
 	
 	

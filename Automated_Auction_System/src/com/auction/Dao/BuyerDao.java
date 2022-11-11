@@ -14,7 +14,7 @@ public interface BuyerDao {
 	
 	public String loginAsBuyer(String email,String password) throws BuyerException;
 	
-	public List<Item> viewItemByCategory(String category) throws ItemException, BuyerException;
+	public List<Item> viewItemByCategory(String category) throws ItemException;
 	
 	public String buyItem(int item_id) throws ItemException;
 	
