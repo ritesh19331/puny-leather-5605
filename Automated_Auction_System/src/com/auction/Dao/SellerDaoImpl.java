@@ -47,7 +47,7 @@ public class SellerDaoImpl implements SellerDao {
 	}
 
 	@Override
-	public String addNewItem(Item item) throws ItemException, SellerException {
+	public String addNewItem(Item item) throws ItemException {
 		String message="Item not Added...";
 		
 		
@@ -55,7 +55,7 @@ public class SellerDaoImpl implements SellerDao {
 			
 		PreparedStatement ps =	conn.prepareStatement("insert into item(item_name,price,quantity,category,seller_id) values(?,?,?,?,?)");
 		
-		int seller_id = CurrentLogin.sellerLogin().getSeller_id();
+		int seller_id = CurrentLogin.currentSellerLogin().getSeller_id();
 		
 		ps.setString(1, item.getItem_name());
 		ps.setInt(2, item.getPrice());
@@ -68,7 +68,7 @@ public class SellerDaoImpl implements SellerDao {
 		if(x>0) {
 			message = "New item added";
 		}else
-			throw new SellerException(message);
+			throw new ItemException(message);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -129,10 +129,9 @@ public class SellerDaoImpl implements SellerDao {
 	public List<SoldItem> soldItemList() throws ItemException {
 		List<SoldItem> ls = new ArrayList<>();
 		
-		
 		try(Connection conn = DBUtil.provideConnection()) {
 			
-		PreparedStatement ps =	conn.prepareStatement("select * from sold_product where seller_id = ?");
+		PreparedStatement ps =	conn.prepareStatement("select * from sold_item where seller_id = ?");
 		
 		int seller_id = CurrentLogin.currentSellerLogin().getSeller_id();
 		

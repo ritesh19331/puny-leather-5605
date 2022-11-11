@@ -11,19 +11,11 @@ public class ViewBuyerByAdmin {
 	
 	public static void main(String[] args) {
 		
-		System.out.println("********************");
-		System.out.println("********************");
 		
-		System.out.println();
-		System.out.println("Available Buyers");
-		
-		System.out.println("********************");
-		System.out.println("********************");
 		
 		AdminDao dao =new AdminDaoImpl();
 		try {
 			List<Buyer> ls =	dao.viewBuyers();
-			
 			ls.forEach((buyer) -> System.out.println(buyer));
 			
 		} catch (BuyerException e) {

@@ -13,7 +13,7 @@ public interface SellerDao {
 	
 	public String loginAsSeller(String email,String password) throws SellerException;
 	
-	public String addNewItem(Item item) throws ItemException, SellerException;
+	public String addNewItem(Item item) throws ItemException;
 	
 	public String updateItem(int item_id,int new_price,int new_quantity) throws ItemException;
 	

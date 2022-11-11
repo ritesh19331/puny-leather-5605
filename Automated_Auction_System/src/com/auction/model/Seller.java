@@ -67,6 +67,14 @@ public class Seller {
 		this.password = password;
 		this.status = status;
 	}
+	
+	
+	public Seller(String seller_name, String email, String password) {
+		super();
+		this.seller_name = seller_name;
+		this.email = email;
+		this.password = password;
+	}
 	@Override
 	public String toString() {
 		return "Seller [seller_id=" + seller_id + ", seller_name=" + seller_name + ", email=" + email + ", password="

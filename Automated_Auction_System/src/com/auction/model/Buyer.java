@@ -40,6 +40,12 @@ public class Buyer {
 	
 	
 	
+	public Buyer(String buyer_name, String email, String password) {
+		super();
+		this.buyer_name = buyer_name;
+		this.email = email;
+		this.password = password;
+	}
 	public Buyer(int bid, String buyer_name, String email) {
 		super();
 		this.bid = bid;
