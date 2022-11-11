@@ -1,0 +1,196 @@
+					Automated Auction System
+
+
+						\/
+						userr
+
+
+Admin 
+
+
+
+
+
+
+
+
+
+
+
+
+
+Tables Needed:
+
+User Table
+------------
+1> Amin
+2> Resgistered Buyer 
+3> Registered Seller
+
+
+4> Product Table
+---------------
+
+5> Seling Table	---status|sold| availble|
+6> Buying Table   ---
+
+Report Table
+------------
+Buyer Name,Seller Name,Product name,base price,
+price traded, Date & time ,
+
+Dispute 
+--------
+
+
+create table Admin
+(
+admin_id int auto_increment primary key,
+name varchar(16) not null,
+email varchar(20) not null unique,
+password varchar(12) not null
+);
+
+
+create table RegisterBuyer
+(
+buyer_id int auto_increment primary key,
+name varchar(16) not null,
+email varchar(20) not null unique,
+password varchar(12) not null,
+city varchar(12)
+);
+
+create table RegisterSeller 
+(
+seller_id int auto_increment primary key,
+name varchar(16) not null,
+email varchar(20) not null unique,
+password varchar(12) not null,
+city varchar(12)
+);
+
+
+create table product
+(
+product_id int auto_increment primary key,
+pname varchar(12) not null,
+price int,
+quantity int default 1,
+status varchar(12) default 'true'
+);
+
+Buyer Name,Seller Name,Product name,base price,
+price traded, Date & time ,
+
+
+create table sold_product
+(
+product_id int,
+bid int,
+sid int,
+foreign key (product_id) references product(product_id),
+foreign key (bid) references buyer(buyer_id),
+foreign key (sid) references seller(seller_id)
+);
+
+
+produc table column --> status --> available to sell --> yes or no
+
+create list items to sell
+-------------------------------
+update product table 
+
+
+
+
+create table Admin(
+AID int primary key auto_increment,
+Admin_Name varchar(16) not null,
+email varchar(18) not null,
+password varchar(12),
+status varchar(12) default 'offline'
+);
+
+
+
+create table Registered_Buyer(
+BID int primary key auto_increment,
+Buyer_Name varchar(16) not null,
+email varchar(18) not null,
+password varchar(12),
+status varchar(12) default 'offline'
+);
+
+
+create table Registered_Seller(
+SID int primary key auto_increment,
+Seller_Name varchar(16) not null,
+email varchar(18) not null,
+password varchar(12),
+status varchar(12) default 'offline'
+);
+
+
+create table ITEM(
+item_id int primary key,
+item_name varchar(12) not null,
+price int,
+quantity int,
+category varchar(12) not null,
+seller_id int,
+foreign key(seller_id) references Registered_Seller(SID)
+
+);
+
+
+
+create table Buy_Request(
+item_Name varchar(12) not null,
+Max_Price int,
+quantity int,
+category varchar(12) not null,
+buyer_id int,
+status varchar(12) default 'pending',
+foreign key(buyer_id) references Registered_buyer(BID)
+
+);
+
+create table sold(
+item_id int not null,
+item_name varchar(12) not null,
+Traded_price int not null,
+buyer_id int,
+seller_id int,
+foreign key(buyer_id) references Registered_buyer(BID),
+foreign key(seller_id) references Registered_Seller(SID)
+
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
