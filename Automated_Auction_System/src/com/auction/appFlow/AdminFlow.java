@@ -3,6 +3,7 @@ package com.auction.appFlow;
 import java.util.Scanner;
 
 import com.auction.usecases.AdminShowDispute;
+import com.auction.usecases.AdminSolveDisputes;
 import com.auction.usecases.LoginAdmin;
 import com.auction.usecases.RegisterAdmin;
 import com.auction.usecases.ViewBuyerByAdmin;
@@ -59,8 +60,9 @@ public class AdminFlow {
 			System.out.println("2. View Sellers");
 			System.out.println("3. Change User Type");
 			System.out.println("4. Show Disputes");
-			System.out.println("5. Go Back");
-			System.out.println("6. Exit App");
+			System.out.println("5. Solve Disputes");
+			System.out.println("6. Go Back");
+			System.out.println("7. Exit App");
 			System.out.println("Enter Your Choice :");
 			String s = sc.next();
 			int x;
@@ -79,10 +81,11 @@ public class AdminFlow {
 			} else if(x==4) {
 				AdminShowDispute.main(null);
 			} else if(x==5) {
+				AdminSolveDisputes.main(null);
+			} else if(x==6) {
 				AdminFlow.useAsAdmin();
 				break;
-				
-			} else if(x==6) {
+			}else if(x==7) {
 				System.out.println("Thank You ! For Choosing Punny Leather Auction. Have a Nice Day");
 				return;
 			} else {

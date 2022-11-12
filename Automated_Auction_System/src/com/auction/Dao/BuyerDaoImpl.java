@@ -12,6 +12,7 @@ import java.util.Map;
 
 import com.auction.exception.BuyerException;
 import com.auction.exception.ItemException;
+import com.auction.exception.NotificationException;
 import com.auction.exception.SellerException;
 import com.auction.model.Buyer;
 import com.auction.model.Item;
@@ -53,8 +54,10 @@ public class BuyerDaoImpl implements BuyerDao{
 	public String loginAsBuyer(String email, String password) throws BuyerException {
 		String message = "Login Attempt Failed...";
 		
+		
+		
 		try(Connection conn = DBUtil.provideConnection()) {
-			
+		
 		PreparedStatement ps =	conn.prepareStatement("select * from registered_buyer where email = ? and password = ?");
 		
 		ps.setString(1, email);
@@ -67,6 +70,24 @@ public class BuyerDaoImpl implements BuyerDao{
 			System.out.println(message);
 			message="welcome";
 			StatusChange.switchStatus("buyer","online",email);
+			
+			int bid =CurrentLogin.currentBuyerLogin().getBid();
+			PreparedStatement ps1 = conn.prepareStatement("select *  from buyer_notification where buyer_id = ?");
+			ps1.setInt(1, bid);
+			
+			ResultSet rs1  = ps1.executeQuery();
+			
+			int count =0;
+			while(rs1.next()) {
+				 count++;
+			}
+			if(count==1)
+				System.out.println("You Have "+ count+" Unread Notification");
+			else if(count>1)
+				System.out.println("You Have "+ count+" Unread Notifications");
+			
+			
+			
 		} else {
 			throw new BuyerException(message);
 		}
@@ -254,6 +275,37 @@ public class BuyerDaoImpl implements BuyerDao{
 		}
 		
 		return ls;
+	}
+
+	@Override
+	public void readBuyerNotification() throws NotificationException {
+		int bid =CurrentLogin.currentBuyerLogin().getBid();
+		try(Connection conn = DBUtil.provideConnection()) {
+			
+			PreparedStatement ps1 = conn.prepareStatement("select * from buyer_notification where buyer_id = ? and status='unread'");
+			ps1.setInt(1, bid);
+			
+			ResultSet rs1  = ps1.executeQuery();
+			int flag=0;
+			while(rs1.next()) {
+				flag++;
+				System.out.println(rs1.getString("message"));
+			}
+			if(flag==0)
+				throw new NotificationException("No Unread Notification");
+			
+			PreparedStatement ps2 = conn.prepareStatement("update buyer_notification set status='read' where status='unread' and buyer_id=?");
+			ps2.setInt(1, bid);
+			
+			int z  = ps2.executeUpdate();
+			if(z==0)
+				throw new NotificationException("No Unread Notification");
+			
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
 	}
 	
 
