@@ -7,7 +7,7 @@ import com.auction.Dao.BuyerDaoImpl;
 import com.auction.exception.BuyerException;
 
 public class BuyerLogin {
-	public static void main(String[] args) {
+	public static boolean main(String[] args) {
 		
 		Scanner sc = new Scanner(System.in);
 		
@@ -15,15 +15,21 @@ public class BuyerLogin {
 		System.out.println("Enter Buyer Email");
 		String email = sc.next();
 		
-		System.out.println("Enter New Password");
+		System.out.println("Enter Login Password");
 		String password = sc.next();
 		
 		
 		BuyerDao dao = new BuyerDaoImpl();
 		try {
-			System.out.println(dao.loginAsBuyer(email, password));
+			String s = dao.loginAsBuyer(email, password);
+			if(s.equalsIgnoreCase("welcome"))
+				return true;
+			else
+				return false;
 		} catch (BuyerException e) {
 			System.out.println(e.getMessage());
 		}
+		
+		return false;
 	}
 }

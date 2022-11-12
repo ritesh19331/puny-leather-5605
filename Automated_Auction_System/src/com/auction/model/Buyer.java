@@ -6,6 +6,16 @@ public class Buyer {
 	private String buyer_name;
 	private String email;
 	private String password;
+	private String status;
+	
+	
+	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public int getBid() {
 		return bid;
 	}
@@ -40,6 +50,14 @@ public class Buyer {
 	
 	
 	
+	public Buyer(int bid, String buyer_name, String email, String password, String status) {
+		super();
+		this.bid = bid;
+		this.buyer_name = buyer_name;
+		this.email = email;
+		this.password = password;
+		this.status = status;
+	}
 	public Buyer(String buyer_name, String email, String password) {
 		super();
 		this.buyer_name = buyer_name;
@@ -52,11 +70,16 @@ public class Buyer {
 		this.buyer_name = buyer_name;
 		this.email = email;
 	}
+	
+	
+	
+	
+	
 	@Override
 	public String toString() {
-		return "Buyer [bid=" + bid + ", buyer_name=" + buyer_name + ", email=" + email + ", password=" + password + "]";
+		return "Buyer [bid=" + bid + ", buyer_name=" + buyer_name + ", email=" + email + ", password=" + password
+				+ ", status=" + status + "]";
 	}
-	
 	public Buyer() {
 		
 	}

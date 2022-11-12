@@ -7,6 +7,8 @@ import com.auction.exception.BuyerException;
 import com.auction.exception.SellerException;
 import com.auction.model.Admin;
 import com.auction.model.Buyer;
+import com.auction.model.DisputeItem;
+import com.auction.model.ItemRequest;
 import com.auction.model.Seller;
 
 public interface AdminDao {
@@ -19,5 +21,9 @@ public interface AdminDao {
 	
 	public List<Seller> viewSellers() throws SellerException;
 	
-	//public List<Item> viewSellingReport() throws ItemException;
+	public List<DisputeItem> ShowDispute() throws BuyerException;
+	
+	public String SolveDispute() throws BuyerException , SellerException;
+	
+//	public List<Item> viewSellingReport() throws ItemException;
 }

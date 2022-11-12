@@ -9,7 +9,7 @@ import com.auction.exception.SellerException;
 
 public class SellerLogin {
 	
-	public static void main(String[] args) {
+	public static boolean main(String[] args) {
 		
 		Scanner sc = new Scanner(System.in);
 		
@@ -23,10 +23,15 @@ public class SellerLogin {
 		
 		SellerDao dao = new SellerDaoImpl();
 		try {
-			System.out.println(dao.loginAsSeller(email, password));
+			String result = dao.loginAsSeller(email, password);
+			if(result.equals("welcome"))
+				return true;
+			else
+				return false;
 		} catch (SellerException e) {
 			System.out.println(e.getMessage());
 		}
 		
+		return false;
 	}
 }

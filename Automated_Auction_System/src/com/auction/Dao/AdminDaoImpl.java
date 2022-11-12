@@ -12,7 +12,10 @@ import com.auction.exception.BuyerException;
 import com.auction.exception.SellerException;
 import com.auction.model.Admin;
 import com.auction.model.Buyer;
+import com.auction.model.DisputeItem;
+import com.auction.model.ItemRequest;
 import com.auction.model.Seller;
+import com.auction.model.SoldItem;
 import com.auction.utility.DBUtil;
 
 public class AdminDaoImpl implements AdminDao{
@@ -130,6 +133,99 @@ public class AdminDaoImpl implements AdminDao{
 		}
 		return message;
 	}
+
+	@Override
+	public List<DisputeItem> ShowDispute() throws BuyerException {
+		List<DisputeItem> ls =new ArrayList<>();
+		
+		try(Connection conn = DBUtil.provideConnection()) {
+			
+			
+		PreparedStatement ps =	conn.prepareStatement(" select seller_id,  item_name , count(buyer_id) ,"
+									+ " item_id, buyer_id BuyerID_Who_Offered_Highest_Price,"
+									+ "  max(your_offer_price)     from buy_request"
+									+ " where buyer_id =(select buyer_id from "
+									+ "buy_request where your_offer_price = ("
+									+ "select max(your_offer_price) from buy_request)) "
+									+ "group by item_id;");
+		
+		ResultSet rs =	ps.executeQuery();
+		while(rs.next()) {
+			String item_name =rs.getString("item_name");
+			int item_id = rs.getInt("item_id");
+			int seller_id = rs.getInt("seller_id");
+			int max_price = rs.getInt("max(your_offer_price)");
+			int buyer_id = rs.getInt("BuyerID_Who_Offered_Highest_Price");
+			int totalBuyRequest = rs.getInt("count(buyer_id)");
+			
+			DisputeItem di = new DisputeItem(item_name, item_id, seller_id, max_price, buyer_id, totalBuyRequest);
+			
+			ls.add(di);
+		}
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return ls;
+	}
+
+	@Override
+	public String SolveDispute() throws BuyerException, SellerException {
+		String message = "No Dispute Available..";
+		try(Connection conn = DBUtil.provideConnection()) {
+			
+			
+			PreparedStatement ps =	conn.prepareStatement(" select seller_id,  item_name , count(buyer_id) ,"
+										+ " item_id, buyer_id BuyerID_Who_Offered_Highest_Price,"
+										+ "  max(your_offer_price)     from buy_request"
+										+ " where buyer_id =(select buyer_id from "
+										+ "buy_request where your_offer_price = ("
+										+ "select max(your_offer_price) from buy_request)) "
+										+ "group by item_id;");
+			
+			ResultSet rs =	ps.executeQuery();
+			int count=0;
+			while(rs.next()) {
+				String item_name =rs.getString("item_name");
+				int item_id = rs.getInt("item_id");
+				int seller_id = rs.getInt("seller_id");
+				int max_price = rs.getInt("max(your_offer_price)");
+				int buyer_id = rs.getInt("BuyerID_Who_Offered_Highest_Price");
+				int totalBuyRequest = rs.getInt("count(buyer_id)");
+				
+				SoldItem item = new SoldItem(item_id, item_name, max_price, buyer_id, seller_id);
+				
+				PreparedStatement ps1 = conn.prepareStatement("insert into sold_item(item_id,item_name,trade_price,buyer_id,seller_id) values(?,?,?,?,?)");
+				
+				ps1.setInt(1, item_id);
+				ps1.setString(2, item_name);
+				ps1.setInt(3, max_price);
+				ps1.setInt(4, buyer_id);
+				ps1.setInt(5, seller_id);
+				int x = ps1.executeUpdate();
+				if(x>0) {
+					
+					
+					PreparedStatement ps3 = conn.prepareStatement("delete from buy_request where item_id = ?");
+					int y = ps3.executeUpdate();
+					if(y>0) {
+						System.out.println("Disputes Solved for seller_id: "+seller_id);
+					}
+					
+					
+				}
+				
+				
+			}
+			
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		
+		return message;
+	}
+	
 	
 	
 }
