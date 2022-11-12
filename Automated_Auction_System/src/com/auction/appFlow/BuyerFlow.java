@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.auction.model.Buyer;
 import com.auction.usecases.BuyerLogin;
+import com.auction.usecases.BuyerNotification;
 import com.auction.usecases.BuyerRegister;
 import com.auction.usecases.BuyerViewAllItem;
 import com.auction.usecases.BuyerViewItemByCategory;
@@ -57,12 +58,13 @@ public class BuyerFlow {
 		while(true) {
 			System.out.println("*****************************************");
 			System.out.println();
-			System.out.println("1. Search Item By Category");
-			System.out.println("2. View Other Buyers For Item You Offered Bid Price");
-			System.out.println("3. View All Items");
-			System.out.println("4. Select Items To Buy");
-			System.out.println("5. Go Back");
-			System.out.println("6. Exit App");
+			System.out.println("1. Unread Notification");
+			System.out.println("2. Search Item By Category");
+			System.out.println("3. View Other Buyers For Item You Offered Bid Price");
+			System.out.println("4. View All Items");
+			System.out.println("5. Select Items To Buy");
+			System.out.println("6. Go Back");
+			System.out.println("7. Exit App");
 			System.out.println("Enter Your Choice :");
 			String s = sc.next();
 			int x;
@@ -72,20 +74,22 @@ public class BuyerFlow {
 				x=Integer.MAX_VALUE;
 			
 			if(x==1) {
-				BuyerViewItemByCategory.main(null);
+				BuyerNotification.main(null);
 			}else if(x==2) {
-				ViewOtherBuyerForItemOfferedBid.main(null);
+				BuyerViewItemByCategory.main(null);
 			}else if(x==3) {
-				BuyerViewAllItem.main(null);
+				ViewOtherBuyerForItemOfferedBid.main(null);
 			}else if(x==4) {
-				SelectItemToBuy.main(null);
+				BuyerViewAllItem.main(null);
 			}else if(x==5) {
+				SelectItemToBuy.main(null);
+			}else if(x==6) {
 				Buyer b = CurrentLogin.currentBuyerLogin();
 				String status = b.getStatus();
 				StatusChange.switchStatus("buyer", "offline", b.getEmail());
 				BuyerFlow.useAsBuyer();
 				break;
-			}else if(x==6) { 
+			}else if(x==7) { 
 				Buyer b = CurrentLogin.currentBuyerLogin();
 				String status = b.getStatus();
 				StatusChange.switchStatus("buyer", "offline", b.getEmail());

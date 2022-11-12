@@ -196,7 +196,7 @@ public class AdminDaoImpl implements AdminDao{
 				
 				SoldItem item = new SoldItem(item_id, item_name, max_price, buyer_id, seller_id);
 				
-				PreparedStatement ps1 = conn.prepareStatement("insert into sold_item(item_id,item_name,trade_price,buyer_id,seller_id) values(?,?,?,?,?)");
+				PreparedStatement ps1 = conn.prepareStatement("insert into sold_item(item_id,item_name,traded_price,buyer_id,seller_id) values(?,?,?,?,?)");
 				
 				ps1.setInt(1, item_id);
 				ps1.setString(2, item_name);
@@ -206,16 +206,58 @@ public class AdminDaoImpl implements AdminDao{
 				int x = ps1.executeUpdate();
 				if(x>0) {
 					
+					PreparedStatement ps2 = conn.prepareStatement("insert into buyer_notification(buyer_id,message) values(?,?)");
+					ps2.setInt(1,buyer_id);
+					String str ="Congrats ! You Won Auction For Item Id : "+item_id+" --"+item_name;
+					ps2.setString(2, str);
 					
-					PreparedStatement ps3 = conn.prepareStatement("delete from buy_request where item_id = ?");
-					int y = ps3.executeUpdate();
-					if(y>0) {
-						System.out.println("Disputes Solved for seller_id: "+seller_id);
+					int bnotify = ps2.executeUpdate();
+					if(bnotify>0) {
+						System.out.println("---------------------------------------------------------------------------------");
+						System.out.println("| Buyer With Buyer_Id : "+buyer_id +", Notification Sent For Winning The Auction |");
+						System.out.println("---------------------------------------------------------------------------------");
+						
+					}
+					PreparedStatement ps4 = conn.prepareStatement("select * from buy_request where item_id=? and buyer_id!=?");
+					ps4.setInt(1, item_id);
+					ps4.setInt(2, buyer_id);
+					
+					ResultSet rs4  = ps4.executeQuery();
+					
+					while(rs4.next()) {
+						int struggler_id = rs.getInt("item_id");
+						str="Auction Lost ! Item Was Sold For : "+max_price;
+						
+						//Inserting notification in buyer table for sending when they login
+						
+						PreparedStatement ps5  = conn.prepareStatement("insert into buyer_notification(buyer_id,message) values(?,?)");
+						ps5.setInt(1, struggler_id);
+						ps5.setString(2, str);
+						int strgNotify = ps5.executeUpdate();
+						if(strgNotify>0) {
+							System.out.println("Lost Notification Sent To Buyer with id :" + struggler_id );
+						}
 					}
 					
+					//Deleting from Buy Request Table
+					
+					PreparedStatement ps3 = conn.prepareStatement("delete from buy_request where item_id = ?");
+					ps3.setInt(1, item_id);
+					int y = ps3.executeUpdate();
+					count+=y;
+					if(y>0) {
+						message = "Disputes Solved.."+1;
+						System.out.println("Disputes Solved for SellerID: "+seller_id);
+						System.out.println();
+					}
+					
+					//deleting from item table
+					
+					PreparedStatement ps5 = conn.prepareStatement("delete from item where item_id = ?");
+					ps5.setInt(1, item_id);
+					int checkps5 = ps5.executeUpdate();
 					
 				}
-				
 				
 			}
 			

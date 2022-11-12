@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.auction.exception.BuyerException;
 import com.auction.exception.ItemException;
+import com.auction.exception.NotificationException;
 import com.auction.model.Buyer;
 import com.auction.model.Item;
 import com.auction.model.ItemRequest;
@@ -23,4 +24,6 @@ public interface BuyerDao {
 	public String buyItem(int item_id,int offer_price) throws ItemException;
 	
 	public List<ItemRequest> viewOtherBuyersForBidItem() throws ItemException,BuyerException;
+	
+	public void readBuyerNotification() throws NotificationException;
 }
