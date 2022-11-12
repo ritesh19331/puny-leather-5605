@@ -1,11 +1,13 @@
 package com.auction.model;
 
 public class SoldItem {
+	
 	private int item_id;
 	private String item_name;
 	private int trade_price;
 	private int buyer_id;
 	private int seller_id;
+	
 	public int getItem_id() {
 		return item_id;
 	}

@@ -6,6 +6,7 @@ public class Item {
 	private int price;
 	private int quantity;
 	private String category;
+	private String date;
 	public int getItem_id() {
 		return item_id;
 	}
@@ -51,11 +52,15 @@ public class Item {
 		this.quantity = quantity;
 		this.category = category;
 	}
+	
+	
+	
 	@Override
 	public String toString() {
 		return "Item [item_id=" + item_id + ", item_name=" + item_name + ", price=" + price + ", quantity=" + quantity
-				+ ", category=" + category + "]";
+				+ ", category=" + category + ", date=" + date + "]";
 	}
+	
 	public Item() {
 		
 	}
