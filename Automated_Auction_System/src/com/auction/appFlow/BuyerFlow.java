@@ -21,12 +21,17 @@ public class BuyerFlow {
 		while(true) {
 			System.out.println("*****************************************");
 			System.out.println();
-			System.out.println("1. Register Buyer");
-			System.out.println("2. Login Buyer");
-			System.out.println("3. Go Back");
-			System.out.println("4. Exit App");
+			System.out.println("+----------------------+");
+			System.out.println("|1. Register Buyer     |");
+			System.out.println("|2. Login Buyer        |");
+			System.out.println("|3. Go Back            |");
+			System.out.println("|4. Exit App           |");
+			System.out.println("+----------------------+");
+			System.out.println("Enter Your Choice :");
+			
 			
 			String s = sc.next();
+			System.out.println("*****************************************");
 			int x;
 			if(CheckNumberOrNot.numberOrNot(s)==true)
 				x=Integer.parseInt(s);
@@ -58,15 +63,18 @@ public class BuyerFlow {
 		while(true) {
 			System.out.println("*****************************************");
 			System.out.println();
-			System.out.println("1. Unread Notification");
-			System.out.println("2. Search Item By Category");
-			System.out.println("3. View Other Buyers For Item You Offered Bid Price");
-			System.out.println("4. View All Items");
-			System.out.println("5. Select Items To Buy");
-			System.out.println("6. Go Back");
-			System.out.println("7. Exit App");
+			System.out.println("+----------------------------------------------------+");
+			System.out.println("|1. Unread Notification                              |");
+			System.out.println("|2. Search Item By Category                          |");
+			System.out.println("|3. View Other Buyers For Item You Offered Bid Price |");
+			System.out.println("|4. View All Items                                   |");
+			System.out.println("|5. Select Items To Buy                              |");
+			System.out.println("|6. Go Back                                          |");
+			System.out.println("|7. Exit App                                         |");
+			System.out.println("+----------------------------------------------------+");
 			System.out.println("Enter Your Choice :");
 			String s = sc.next();
+			System.out.println("*****************************************");
 			int x;
 			if(CheckNumberOrNot.numberOrNot(s)==true)
 				x=Integer.parseInt(s);

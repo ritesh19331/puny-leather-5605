@@ -19,6 +19,7 @@ import com.auction.model.SoldItem;
 import com.auction.utility.DBUtil;
 
 public class AdminDaoImpl implements AdminDao{
+	
 
 	@Override
 	public String loginAdmin(String username, String access_key) throws AdminException {
@@ -35,8 +36,7 @@ public class AdminDaoImpl implements AdminDao{
 		ResultSet rs = ps.executeQuery();
 		
 		if(rs.next()) {
-//			System.out.println();
-			message = "Hey! " + rs.getString("admin_name")+", Admin Access Successfull ";
+			message = "Hey! " + rs.getString("admin_name")+", Admin Access Granted ";
 			System.out.println(message);
 			message="welcome";
 		}else
@@ -162,7 +162,8 @@ public class AdminDaoImpl implements AdminDao{
 			
 			ls.add(di);
 		}
-		
+		if(ls.size()==0)
+			throw new BuyerException("No Dispute Available");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -213,9 +214,9 @@ public class AdminDaoImpl implements AdminDao{
 					
 					int bnotify = ps2.executeUpdate();
 					if(bnotify>0) {
-						System.out.println("---------------------------------------------------------------------------------");
+						System.out.println("+---------------------------------------------------------------------------------+");
 						System.out.println("| Buyer With Buyer_Id : "+buyer_id +", Notification Sent For Winning The Auction |");
-						System.out.println("---------------------------------------------------------------------------------");
+						System.out.println("+---------------------------------------------------------------------------------+");
 						
 					}
 					PreparedStatement ps4 = conn.prepareStatement("select * from buy_request where item_id=? and buyer_id!=?");

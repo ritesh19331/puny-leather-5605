@@ -26,12 +26,16 @@ public class MainDriver {
 		
 		Scanner sc =new Scanner(System.in);
 		while(true) {
-			System.out.println("1. Use As Admin");
-			System.out.println("2. Use As Buyer");
-			System.out.println("3. Use As Seller");
-			System.out.println("4. Exit App");
-			System.out.println("Enter your Choice : ");
+			System.out.println("+---------------------+");
+			System.out.println("|1. Use As Admin      |");
+			System.out.println("|2. Use As Buyer      |");
+			System.out.println("|3. Use As Seller     |");
+			System.out.println("|4. Exit App          |");
+			System.out.println("+---------------------+");
+			System.out.println("Enter your Choice :  ");
+			
 			String s = sc.next();
+			
 			int x=0;
 			if(CheckNumberOrNot.numberOrNot(s)==true)
 				x=Integer.parseInt(s);
