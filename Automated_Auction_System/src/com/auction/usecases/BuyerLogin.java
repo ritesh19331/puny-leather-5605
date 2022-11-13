@@ -5,6 +5,7 @@ import java.util.Scanner;
 import com.auction.Dao.BuyerDao;
 import com.auction.Dao.BuyerDaoImpl;
 import com.auction.exception.BuyerException;
+import com.auction.utility.ConsoleColors;
 
 public class BuyerLogin {
 	public static boolean main(String[] args) {

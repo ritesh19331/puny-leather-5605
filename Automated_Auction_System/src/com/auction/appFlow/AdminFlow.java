@@ -1,6 +1,12 @@
 package com.auction.appFlow;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Scanner;
+
+import javax.imageio.ImageIO;
 
 import com.auction.usecases.AdminShowDispute;
 import com.auction.usecases.AdminSolveDisputes;
@@ -14,7 +20,6 @@ import com.auction.utility.ConsoleColors;
 public class AdminFlow {
 	
 	public static void useAsAdmin() {
-		
 		Scanner sc =new Scanner(System.in);
 		
 		while(true) {

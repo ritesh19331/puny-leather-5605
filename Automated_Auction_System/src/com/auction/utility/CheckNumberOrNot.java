@@ -7,7 +7,7 @@ public class CheckNumberOrNot {
 			int x = Integer.parseInt(st);
 			return true;
 		} catch (NumberFormatException e) {
-			System.out.println("Can't process that ! Hint: Use NUMBER Format to enter you choice");
+			System.out.println(ConsoleColors.RED_BACKGROUND+"Can't process that ! Hint: Use NUMBER Format to enter you choice"+ConsoleColors.RESET);
 		}
 		
 		return false;

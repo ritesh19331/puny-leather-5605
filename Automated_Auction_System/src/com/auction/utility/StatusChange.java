@@ -23,9 +23,10 @@ public class StatusChange {
 		if(x>0) {
 			message = "Status Changed : You Are " + new_st + ".. now.";
 			if(new_st=="offline")
-				System.err.println(message);
+				System.out.println(ConsoleColors.ANSI_RED+message+ConsoleColors.ANSI_RESET);
 			else
-				System.out.println(message);
+				System.out.println(ConsoleColors.GREEN_BACKGROUND+message+ConsoleColors.RESET);
+//				System.out.println(message);
 		} else
 			System.out.println("No user found online...");
 		} catch (SQLException e) {
