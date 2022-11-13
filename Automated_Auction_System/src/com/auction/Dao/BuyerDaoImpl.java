@@ -30,6 +30,7 @@ public class BuyerDaoImpl implements BuyerDao{
 		String message="Buyer not Registered...";
 		
 		
+		
 		try(Connection conn = DBUtil.provideConnection()) {
 			
 		PreparedStatement ps =	conn.prepareStatement("insert into registered_buyer(buyer_name,email,password) values(?,?,?)");
@@ -68,7 +69,7 @@ public class BuyerDaoImpl implements BuyerDao{
 		
 		if(rs.next()) {
 			message = "Login Successfull...";
-			System.out.println(message);
+			System.out.println(ConsoleColors.GREEN_BACKGROUND+message+ConsoleColors.RESET);
 			message="welcome";
 			StatusChange.switchStatus("buyer","online",email);
 			

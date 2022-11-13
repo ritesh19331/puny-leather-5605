@@ -16,6 +16,7 @@ import com.auction.model.Buyer;
 import com.auction.model.Item;
 import com.auction.model.Seller;
 import com.auction.model.SoldItem;
+import com.auction.utility.ConsoleColors;
 import com.auction.utility.CurrentLogin;
 import com.auction.utility.DBUtil;
 import com.auction.utility.StatusChange;
@@ -185,7 +186,7 @@ public class SellerDaoImpl implements SellerDao {
 		
 		if(rs.next()) {
 			message = "Login Successfull...";
-			System.out.println(message);
+			System.out.println(ConsoleColors.GREEN_BACKGROUND+message+ConsoleColors.RESET);
 			StatusChange.switchStatus("seller", "online",email);
 			message="welcome";
 		} else {
