@@ -20,12 +20,16 @@ public class SellerFlow {
 		while(true) {
 			System.out.println("*****************************************");
 			System.out.println();
-			System.out.println("1. Register Seller");
-			System.out.println("2. Login Seller");
-			System.out.println("3. Go Back");
-			System.out.println("4. Exit App");
-			System.out.println("Enter Your Choice :");
+			System.out.println("+----------------------+");
+			System.out.println("|1. Register Seller    |");
+			System.out.println("|2. Login Seller       |");
+			System.out.println("|3. Go Back            |");
+			System.out.println("|4. Exit App           |");
+			System.out.println("+----------------------+");
+			System.out.println("|Enter Your Choice :");
+			
 			String s = sc.next();
+			System.out.println("*****************************************");
 			int x;
 			if(CheckNumberOrNot.numberOrNot(s)==true)
 				x=Integer.parseInt(s);
@@ -57,14 +61,17 @@ public class SellerFlow {
 		while(true) {
 			System.out.println("*****************************************");
 			System.out.println();
-			System.out.println("1. Add New Item");
-			System.out.println("2. Update Item");
-			System.out.println("3. Remove Item");
-			System.out.println("4. View Sold Item History");
-			System.out.println("5. Go Back");
-			System.out.println("6. Exit App");
+			System.out.println("+----------------------------+");
+			System.out.println("1. Add New Item              |");
+			System.out.println("2. Update Item               |");
+			System.out.println("3. Remove Item               |");
+			System.out.println("4. View Sold Item History    |");
+			System.out.println("5. Go Back                   |");
+			System.out.println("6. Exit App                  |");
+			System.out.println("+----------------------------+");
 			System.out.println("Enter Your Choice :");
 			String s = sc.next();
+			System.out.println("*****************************************");
 			int x;
 			if(CheckNumberOrNot.numberOrNot(s)==true)
 				x=Integer.parseInt(s);

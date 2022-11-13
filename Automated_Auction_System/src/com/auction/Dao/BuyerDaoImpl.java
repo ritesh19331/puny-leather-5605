@@ -18,6 +18,7 @@ import com.auction.model.Buyer;
 import com.auction.model.Item;
 import com.auction.model.ItemRequest;
 import com.auction.model.SoldItem;
+import com.auction.utility.ConsoleColors;
 import com.auction.utility.CurrentLogin;
 import com.auction.utility.DBUtil;
 import com.auction.utility.StatusChange;
@@ -72,7 +73,7 @@ public class BuyerDaoImpl implements BuyerDao{
 			StatusChange.switchStatus("buyer","online",email);
 			
 			int bid =CurrentLogin.currentBuyerLogin().getBid();
-			PreparedStatement ps1 = conn.prepareStatement("select *  from buyer_notification where buyer_id = ?");
+			PreparedStatement ps1 = conn.prepareStatement("select *  from buyer_notification where buyer_id = ? and status='unread'");
 			ps1.setInt(1, bid);
 			
 			ResultSet rs1  = ps1.executeQuery();
@@ -82,11 +83,10 @@ public class BuyerDaoImpl implements BuyerDao{
 				 count++;
 			}
 			if(count==1)
-				System.out.println("You Have "+ count+" Unread Notification");
+				System.out.println(ConsoleColors.ANSI_BLUE+"ALERT ! You Have "+ count+" Unread Notification"+ConsoleColors.ANSI_RESET);
 			else if(count>1)
-				System.out.println("You Have "+ count+" Unread Notifications");
-			
-			
+				System.out.println(ConsoleColors.ANSI_BLUE+"ALERT ! You Have "+ count+" Unread Notifications"+ConsoleColors.ANSI_RESET);
+				
 			
 		} else {
 			throw new BuyerException(message);
@@ -134,7 +134,7 @@ public class BuyerDaoImpl implements BuyerDao{
 
 	@Override
 	public String buyItem(int item_id,int offer_price) throws ItemException {
-		String message = "Item not bought";
+		String message = "Item Not Available....";
 		
 		try(Connection conn = DBUtil.provideConnection()) {
 			PreparedStatement ps = conn.prepareStatement("select * from item where item_id = ?");
@@ -154,14 +154,38 @@ public class BuyerDaoImpl implements BuyerDao{
 					
 					if(rs2.next()) {
 						best_price=rs2.getInt("max(your_offer_price)");
-//						System.out.println(best_price);
+						
 					}
 				}
 				if(best_price<offer_price) {
 					best_price=offer_price;
 					PreparedStatement ps3 = conn.prepareStatement("update buy_request set best_price_offered= ?");
 					ps3.setInt(1, best_price);
-					ps3.executeUpdate();
+					ps3.executeUpdate();	
+					
+					//sending notifications to people who offered less price
+					{
+						int bid =CurrentLogin.currentBuyerLogin().getBid();
+						PreparedStatement ps4= conn.prepareStatement("select * from buy_request where buyer_id!=? and item_id=?");
+						ps4.setInt(1, bid);
+						ps4.setInt(2, item_id);
+						
+						ResultSet rs4 = ps4.executeQuery();
+						
+						while(rs4.next()) {
+							int buyer_id_notify = rs4.getInt("buyer_id");
+							PreparedStatement ps5 = conn.prepareStatement("insert into buyer_notification(buyer_id,message) values(?,?)");
+							ps5.setInt(1,buyer_id_notify );
+							ps5.setString(2, "Highher Bid Price Was Offered Than Yours ! You Can Offer A New Price To Buy");
+							int confirm= ps5.executeUpdate();
+							if(confirm>0) {
+								System.out.println("Notification Sent For Bidding Higher Price TO Buyer With BuyerID :"+buyer_id_notify);
+							}
+						}
+					}
+					
+					
+				} else {
 					
 				}
 				int buyer_id = CurrentLogin.currentBuyerLogin().getBid();
@@ -291,8 +315,6 @@ public class BuyerDaoImpl implements BuyerDao{
 				flag++;
 				System.out.println(rs1.getString("message"));
 			}
-			if(flag==0)
-				throw new NotificationException("No Unread Notification");
 			
 			PreparedStatement ps2 = conn.prepareStatement("update buyer_notification set status='read' where status='unread' and buyer_id=?");
 			ps2.setInt(1, bid);

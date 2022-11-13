@@ -9,8 +9,10 @@ import com.auction.usecases.RegisterAdmin;
 import com.auction.usecases.ViewBuyerByAdmin;
 import com.auction.usecases.ViewSellerByAdmin;
 import com.auction.utility.CheckNumberOrNot;
+import com.auction.utility.ConsoleColors;
 
 public class AdminFlow {
+	
 	public static void useAsAdmin() {
 		
 		Scanner sc =new Scanner(System.in);
@@ -18,13 +20,21 @@ public class AdminFlow {
 		while(true) {
 			System.out.println("*****************************************");
 			System.out.println();
-			System.out.println("1. Register Admin");
-			System.out.println("2. Login Admin");
-			System.out.println("3. Change User Type");
-			System.out.println("4. Go Back");
-			System.out.println("5. Exit App");
+//			System.out.println("+-----------------------+");
+//			System.out.println("|1. Register Admin      |");
+//			System.out.println("|2. Login Admin         |");
+//			System.out.println("|3. Change User Type    |");
+//			System.out.println("|4. Go Back             |");
+//			System.out.println("|5. Exit App            |");
+//			System.out.println("+-----------------------+");
+			System.out.println("1. Register Admin      ");
+			System.out.println("2. Login Admin         ");
+			System.out.println("3. Change User Type    ");
+			System.out.println("4. Go Back             ");
+			System.out.println("5. Exit App            ");
 			System.out.println("Enter Your Choice :");
 			String s = sc.next();
+			System.out.println("*****************************************");
 			int x;
 			if(CheckNumberOrNot.numberOrNot(s)==true)
 				x=Integer.parseInt(s);
@@ -56,15 +66,18 @@ public class AdminFlow {
 		while(true) {
 			System.out.println("*****************************************");
 			System.out.println();
-			System.out.println("1. View Buyers");
-			System.out.println("2. View Sellers");
-			System.out.println("3. Change User Type");
-			System.out.println("4. Show Disputes");
-			System.out.println("5. Solve Disputes");
-			System.out.println("6. Go Back");
-			System.out.println("7. Exit App");
+			System.out.println("+-----------------------+");
+			System.out.println("|1. View Buyers         |");
+			System.out.println("|2. View Sellers        |");
+			System.out.println("|3. Change User Type    |");
+			System.out.println("|4. Show Disputes       |");
+			System.out.println("|5. Solve Disputes      |");
+			System.out.println("|6. Go Back             |");
+			System.out.println("|7. Exit App            |");
+			System.out.println("+-----------------------+");
 			System.out.println("Enter Your Choice :");
 			String s = sc.next();
+			System.out.println("*****************************************");
 			int x;
 			if(CheckNumberOrNot.numberOrNot(s)==true)
 				x=Integer.parseInt(s);
